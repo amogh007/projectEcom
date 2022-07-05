@@ -1,11 +1,13 @@
-const express=require('express');
-const app=express();
-const product=require("./routes/productRoute");
-const errorMiddleware=require('../Backend/middleware/error')
+const express = require("express");
+const app = express();
+const product = require("./routes/productRoute");
+const user = require("./routes/userRoutes");
+const errorMiddleware = require("../Backend/middleware/error");
 
 app.use(express.json());
 
-app.use("/api/v1",product);
-app.use(errorMiddleware)
+app.use("/api/v1", product);
+app.use("/api/v1", user);
+app.use(errorMiddleware);
 
-module.exports=app;
+module.exports = app;
