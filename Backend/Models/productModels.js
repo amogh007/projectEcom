@@ -56,6 +56,11 @@ const ProductSchema=mongoose.Schema({
            required:[true,"please enter the comment"]
        }
    }],
+   user: {
+    type:mongoose.Schema.ObjectId,
+    ref:'User',
+    required:true
+   },
    createdAt:{
        type:Date,
        default:Date.now

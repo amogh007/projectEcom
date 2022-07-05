@@ -15,23 +15,32 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
       url: "this is profile pic url",
     },
   });
-  sendToken(user,201,res)
+  sendToken(user, 201, res);
 });
 
 exports.loginUser = catchAsyncError(async (req, res, next) => {
   const { email, password } = req.body;
-  if (!email|| !password) {
+  if (!email || !password) {
     return next(new ErrorHandler("please enter email id and password", 400));
   }
-  const user =await  User.findOne({ email: email }).select("+password");
+  const user = await User.findOne({ email: email }).select("+password");
   if (!user) {
     return next(new ErrorHandler("please signup", 400));
   }
-  const isPassword =user.comparePassword(password)
+  const isPassword = user.comparePassword(password);
   if (!isPassword) {
     return next(
       new ErrorHandler("please enter valid email id or password", 401)
     );
   }
-  sendToken(user,200,res)
+  sendToken(user, 200, res);
 });
+exports.logOutUser = catchAsyncError(async (req, res, next) => {
+  res.cookie("token", null, {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(200).json({ sucess: true, message: "logged out successfully" });
+});
+
+
